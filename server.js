@@ -18,6 +18,9 @@ app.get('/searches/new',newSearches);
 app.get('/hello', testPage)
 app.post('/searches', search);
 app.get('/searches/show', showSearch)
+app.get('/error', ((req,res) =>{
+    res.render('pages/error');
+}))
 
 function homePage(req,res) {
     res.render("pages/index");
@@ -42,7 +45,7 @@ async function search(req,res){
     })
     .catch(error =>{
         console.log("Error | Can't find any data about your search.")
-        res.status(500).redirect("pages/error")
+        res.status(500).redirect("error")
     })
 
 }
@@ -70,11 +73,11 @@ function Book(data){
 }
 
 app.use("*", (req, res) => {
-    res.status(404).redirect("pages/error");
+    res.status(404).redirect("error");
 });
 
 app.use((error, req, res) => {
-    res.status(500).redirect("pages/error");
+    res.status(500).redirect("error");
 });
 
 app.listen(PORT,()=>{
