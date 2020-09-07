@@ -34,8 +34,9 @@ function homePage(req, res) {
         res.render("pages/index", { data: result.rows });
     })
     .catch(error => {
-        console.log("Error | Can't load database.")
-        res.status(500).redirect("error")
+        let errorReason ="Error | Can't load database.";
+        console.log(errorReason);
+        res.status(500).render("pages/error",{data:errorReason});
     })
 }
 
@@ -57,8 +58,9 @@ function search(req, res) {
             res.redirect("searches/show");
         })
         .catch(error => {
-            console.log("Error | Can't find any data about your search.")
-            res.status(500).redirect("error")
+            let errorReason = "Error | Can't find any data about your search.";
+            console.log(errorReason);
+            res.status(500).render("pages/error",{data:errorReason});
         })
 
 }
@@ -76,8 +78,9 @@ function viewDetails(req, res) {
         res.render("pages/books/show", { data: data.rows[0] })
     })
     .catch(error => {
-        console.log("Error | Can't load details.")
-        res.status(500).redirect("error")
+        let errorReason ="Error | Can't load details.";
+        console.log(errorReason);
+        res.status(500).render("pages/error",{data:errorReason});
     })
 }
 
@@ -94,8 +97,9 @@ function addBook(req,res){
             res.redirect(`/books/${data.rows[0].id}`);
         })
         .catch(error => {
-            console.log("Error | Can't redirect to details of the book.")
-            res.status(500).redirect("error")
+            let errorReason = "Error | Can't redirect to details of the book."
+            console.log(errorReason);
+            res.status(500).render("pages/error",{data:errorReason});
         })
     })
     .catch(error => {
