@@ -11,14 +11,8 @@
         color: white;
     }
     main{
-        /* position: fixed; or absolute */
-        padding-top: 300px;
-        /* left: 35%; */
+        padding-top: 100px;
     }
-    /* main form input, main form .radio, main form button{
-        display: block;
-        text-align: center;
-    } */
     footer{
         height: 70px;
         background-color: black;
