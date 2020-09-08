@@ -1,0 +1,26 @@
+<div id="formBG"></div>
+<div class="updateForm" id="formUpdate">
+
+    <form class="form-container flexCol" action="/books/<%= data.id %>?_method=put" method="post">
+        <input type="text" name="title" alt="Title" value="<%= data.title %>">
+        <input type="text" name="author" alt="Author" value="<%= data.author %>">
+        <input type="text" name="isbn" alt="ISBN" value="<%= data.isbn %>">
+        <input type="text" name="image_url" alt="Image URL" value="<%= data.image_url %>">
+        <textarea name="description" alt="Description"><%= data.description %></textarea>
+        <select name="bookshelf" alt="BookShelf">
+            <% data2.forEach(data2 =>{ %>
+            <% if(data.bookshelf == data2.bookshelf){ %>
+            <option selected value="<%= data.bookshelf %>"><%= data.bookshelf %></option>
+            <% }else{ %>
+            <option value="<%= data.bookshelf %>"> <%= data2.bookshelf %> </option>
+            <% } %>
+
+            <% }) %>
+
+        </select>
+        <div style="margin-top: 20px; margin-bottom: 20px;" class="btnForm">
+            <button>Update Book</button>
+            <button type="button" onclick="closeForm()">Cancel</button>
+        </div>
+    </form>
+</div>

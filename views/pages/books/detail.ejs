@@ -5,9 +5,21 @@
     <p><%= data.description %></p>
     <p>ISBN: <%= data.isbn %></p>
     <p>Bookshelf: <%= data.bookshelf %></p>
+    <div class="btnForm">
+        <div style="width: 40%;">
+            <button class="udButton" onclick="openForm()">Update</button>
+        </div>
+
+        <form style="width: 40%;" action="/books/<%= data.id %>?_method=delete" method="post">
+            <button class="udButton">Delete</button>
+        </form>
+    </div>
+
+
+    <%- include('../../pages/books/edit')%>
     <!-- <form class="postForm" action="" method="POST">
                     <input type="hidden" value="<%= data.id %>">
-                    <button id="detailsButton">Update</button>
+                    <button id="detailsButton" onclick="openForm()">Update</button>
                 </form>
                 <form class="postForm" action="" method="POST">
                     <input type="hidden" value="<%= data.id %>">
