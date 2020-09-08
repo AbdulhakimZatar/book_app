@@ -6,3 +6,12 @@ function menu() {
         x.style.display = "block";
     }
 }
+
+function openForm() {
+    document.getElementById("formUpdate").style.display = "block";
+    document.getElementById("formBG").style.display = "block";
+}
+function closeForm() {
+    document.getElementById("formUpdate").style.display = "none";
+    document.getElementById("formBG").style.display = "none";
+}

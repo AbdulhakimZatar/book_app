@@ -4,11 +4,13 @@
         background-color: black;
         position: relative;
         width: 100%;
+        z-index: 9;
     }
     .topnav #myLinks {
         display: none;
         background-color: black;
         border: solid gray 2px;
+        z-index: 9;
     }
     .topnav a {
         color: white;
@@ -19,7 +21,9 @@
         text-align: center;
     }
     .topnav p {
+        color: goldenrod;
         font-size: 30px;
+        font-weight: bold;
     }
     .topnav a.icon {
         background: black;
