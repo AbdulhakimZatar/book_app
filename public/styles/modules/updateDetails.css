@@ -4,6 +4,7 @@
     padding: 10px;
     background-color: white;
     box-sizing: border-box;
+    margin-bottom: 80px;
 }
 
 .updateForm {
@@ -15,6 +16,9 @@
     top: 120px;
     border-radius: 3px;
     border: 3px solid goldenrod;
+    overflow: scroll;
+    margin-bottom: 80px;
+    background-color: white;
 }
 
 #formBG {
