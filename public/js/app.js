@@ -16,6 +16,6 @@ function closeForm() {
     document.getElementById("formBG").style.display = "none";
 }
 
-if ($(window).width() > 767) {
-    alert("This website only for phones.");
- }
+// if ($(window).width() > 767) {
+//     alert("This website only for phones.");
+//  }
