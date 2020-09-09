@@ -6,13 +6,13 @@
         <input type="text" name="author" alt="Author" value="<%= data.author %>">
         <input type="text" name="isbn" alt="ISBN" value="<%= data.isbn %>">
         <input type="text" name="image_url" alt="Image URL" value="<%= data.image_url %>">
-        <textarea name="description" alt="Description"><%= data.description %></textarea>
+        <textarea rows="4" name="description" alt="Description"><%= data.description %></textarea>
         <select name="bookshelf" alt="BookShelf">
             <% data2.forEach(data2 =>{ %>
-            <% if(data.bookshelf == data2.bookshelf){ %>
-            <option selected value="<%= data.bookshelf %>"><%= data.bookshelf %></option>
+            <% if(data3.name == data2.name){ %>
+            <option selected value="<%= data3.name %>"><%= data3.name %></option>
             <% }else{ %>
-            <option value="<%= data.bookshelf %>"> <%= data2.bookshelf %> </option>
+            <option value="<%= data2.name %>"> <%= data2.name %> </option>
             <% } %>
 
             <% }) %>

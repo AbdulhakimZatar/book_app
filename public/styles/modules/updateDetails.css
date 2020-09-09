@@ -62,7 +62,9 @@
 
 .form-container textarea{
     font-size: 18px;
+    min-height: 100px;
     height: 100px;
+    padding: 5px;
 }
 
 .form-container button{

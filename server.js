@@ -78,11 +78,17 @@ function viewDetails(req, res) {
     let SQL = `SELECT * FROM books WHERE id=$1;`
     let values = [req.params.bookID];
 
-    let SQL2 = `SELECT DISTINCT bookshelf FROM books;`
+    let SQL2 = `SELECT DISTINCT name FROM bookshelves;`
+
 
     client.query(SQL, values).then(data => {
+        // console.log(data.rows[0])
+        let SQL3 = `SELECT * FROM bookshelves WHERE id=${data.rows[0].bookshelf_id};`
         client.query(SQL2).then(data2 => {
-            res.render("pages/books/show", { data: data.rows[0], data2: data2.rows })
+            client.query(SQL3).then((data3) => {
+                res.render("pages/books/show", { data: data.rows[0], data2: data2.rows, data3: data3.rows[0] })
+            })
+
         })
 
     })
@@ -97,16 +103,22 @@ function updateDetails(req, res) {
     // console.log(req.params.bookID);
     // console.log(req.body);
     let { author, title, isbn, image_url, description, bookshelf } = req.body;
-    let SQL = `UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7`
-    let safeValues = [author, title, isbn, image_url, description, bookshelf, req.params.bookID];
-    client.query(SQL, safeValues).then(() => {
-        res.redirect(`/books/${req.params.bookID}`)
-    })
-        .catch(error => {
-            let errorReason = "Error | Can't update details of the book."
-            console.log(errorReason);
-            res.status(500).render("pages/error", { data: errorReason });
+    let SQL2 = `SELECT * FROM bookshelves WHERE name='${bookshelf}';`
+
+    client.query(SQL2).then((data2) => {
+        let bookshelf_id = data2.rows[0].id;
+        let SQL = `UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5, bookshelf_id=$6 WHERE id=$7`
+        let safeValues = [author, title, isbn, image_url, description, bookshelf_id, req.params.bookID];
+        client.query(SQL, safeValues).then(() => {
+            res.redirect(`/books/${req.params.bookID}`)
         })
+            .catch(error => {
+                let errorReason = "Error | Can't update details of the book."
+                console.log(errorReason);
+                res.status(500).render("pages/error", { data: errorReason });
+            })
+    })
+
 }
 
 function deleteBook(req, res) {
@@ -115,34 +127,47 @@ function deleteBook(req, res) {
     client.query(SQL, safeValue).then(() => {
         res.redirect('/')
     })
-    .catch(error => {
-        let errorReason = "Error | Can't delete book."
-        console.log(errorReason);
-        res.status(500).render("pages/error", { data: errorReason });
-    })
+        .catch(error => {
+            let errorReason = "Error | Can't delete book."
+            console.log(errorReason);
+            res.status(500).render("pages/error", { data: errorReason });
+        })
 }
 
 function addBook(req, res) {
     let { author, title, isbn, image_url, description, bookshelf } = arrayBooks[req.body.id];
     if (author.length >= 1) { author = arrayBooks[req.body.id].author[0] }
     if (bookshelf.length >= 1) { bookshelf = arrayBooks[req.body.id].bookshelf[0] }
-    let SQL = `INSERT INTO books (author, title, isbn, image_url, description, bookshelf) VALUES ($1,$2,$3,$4,$5,$6)`
-    let safeValues = [author, title, isbn, image_url, description, bookshelf];
-    let SQL2 = `SELECT * FROM books WHERE isbn='${isbn}';`
 
-    client.query(SQL, safeValues).then(() => {
-        client.query(SQL2).then(data => {
-            res.redirect(`/books/${data.rows[0].id}`);
-        })
-            .catch(error => {
-                let errorReason = "Error | Can't redirect to details of the book."
-                console.log(errorReason);
-                res.status(500).render("pages/error", { data: errorReason });
+    let SQL3 = `INSERT INTO bookshelves (name) VALUES ($1)`
+    let SQL4 = `SELECT * FROM bookshelves WHERE name='${bookshelf}';`
+    let safeValues3 = [bookshelf];
+
+    client.query(SQL3, safeValues3).then(() => {
+        client.query(SQL4).then((data) => {
+            let bookshelf_id = data.rows[0].id;
+            let SQL = `INSERT INTO books (author, title, isbn, image_url, description, bookshelf_id) VALUES ($1,$2,$3,$4,$5,$6)`
+            let safeValues = [author, title, isbn, image_url, description, bookshelf_id];
+            let SQL2 = `SELECT * FROM books WHERE isbn='${isbn}';`
+
+            client.query(SQL, safeValues).then(() => {
+                client.query(SQL2).then(data => {
+                    res.redirect(`/books/${data.rows[0].id}`);
+                })
+                    .catch(error => {
+                        let errorReason = "Error | Can't redirect to details of the book."
+                        console.log(errorReason);
+                        res.status(500).render("pages/error", { data: errorReason });
+                    })
             })
+                .catch(error => {
+                    console.log("Error | Book already saved in the database.")
+                    res.redirect("/")
+                })
+        })
     })
-        .catch(error => {
-            console.log("Error | Book already saved in the database.")
-            res.redirect("/")
+        .catch(() => {
+            console.log("Bookshelf already in DB.")
         })
 
 }
